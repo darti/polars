@@ -33,17 +33,28 @@ memmap = { package = "memmap2", version = "0.7" }
 num-traits = { workspace = true }
 object_store = { workspace = true, optional = true }
 once_cell = { workspace = true }
+opendal = { workspace = true, optional = true }
 percent-encoding = { workspace = true }
 rayon = { workspace = true }
 regex = { workspace = true }
 reqwest = { workspace = true, optional = true }
 ryu = { workspace = true, optional = true }
 serde = { workspace = true, features = ["rc"], optional = true }
-serde_json = { version = "1", default-features = false, features = ["alloc", "raw_value", "std"], optional = true }
+serde_json = { version = "1", default-features = false, features = [
+    "alloc",
+    "raw_value",
+    "std",
+], optional = true }
 simd-json = { workspace = true, optional = true }
 simdutf8 = { workspace = true, optional = true }
 smartstring = { workspace = true }
-tokio = { workspace = true, features = ["fs", "net", "rt-multi-thread", "time", "sync"], optional = true }
+tokio = { workspace = true, features = [
+    "fs",
+    "net",
+    "rt-multi-thread",
+    "time",
+    "sync",
+], optional = true }
 tokio-util = { workspace = true, features = ["io", "io-util"], optional = true }
 url = { workspace = true, optional = true }
 zstd = { workspace = true, optional = true }
@@ -59,12 +70,12 @@ tempfile = "3"
 default = ["decompress"]
 # support for arrows json parsing
 json = [
-  "polars-json",
-  "simd-json",
-  "atoi_simd",
-  "serde_json",
-  "dtype-struct",
-  "csv",
+    "polars-json",
+    "simd-json",
+    "atoi_simd",
+    "serde_json",
+    "dtype-struct",
+    "csv",
 ]
 serde = ["dep:serde", "polars-core/serde-lazy", "polars-parquet/serde"]
 # support for arrows ipc file parsing
@@ -84,32 +95,40 @@ dtype-categorical = ["polars-core/dtype-categorical"]
 dtype-date = ["polars-core/dtype-date", "polars-time/dtype-date"]
 object = ["polars-core/object"]
 dtype-datetime = [
-  "polars-core/dtype-datetime",
-  "polars-core/temporal",
-  "polars-time/dtype-datetime",
-  "chrono",
+    "polars-core/dtype-datetime",
+    "polars-core/temporal",
+    "polars-time/dtype-datetime",
+    "chrono",
 ]
-timezones = [
-  "chrono-tz",
-  "dtype-datetime",
-  "arrow/timezones",
+timezones = ["chrono-tz", "dtype-datetime", "arrow/timezones"]
+dtype-time = [
+    "polars-core/dtype-time",
+    "polars-core/temporal",
+    "polars-time/dtype-time",
 ]
-dtype-time = ["polars-core/dtype-time", "polars-core/temporal", "polars-time/dtype-time"]
 dtype-struct = ["polars-core/dtype-struct"]
 dtype-decimal = ["polars-core/dtype-decimal"]
 fmt = ["polars-core/fmt"]
 lazy = []
 parquet = ["polars-parquet", "polars-parquet/compression"]
 async = [
-  "async-trait",
-  "futures",
-  "tokio",
-  "tokio-util",
-  "arrow/io_ipc_write_async",
-  "polars-error/regex",
-  "polars-parquet?/async",
+    "async-trait",
+    "futures",
+    "tokio",
+    "tokio-util",
+    "arrow/io_ipc_write_async",
+    "polars-error/regex",
+    "polars-parquet?/async",
 ]
-cloud = ["object_store", "async", "polars-error/object_store", "url", "serde_json", "serde", "file_cache"]
+cloud = [
+    "object_store",
+    "async",
+    "polars-error/object_store",
+    "url",
+    "serde_json",
+    "serde",
+    "file_cache",
+]
 file_cache = ["async", "dep:blake3", "dep:fs4"]
 aws = ["object_store/aws", "cloud", "reqwest"]
 azure = ["object_store/azure", "cloud"]
@@ -119,6 +138,7 @@ partition = ["polars-core/partition_by"]
 temporal = ["dtype-datetime", "dtype-date", "dtype-time"]
 simd = []
 python = ["polars-error/python"]
+opendal = ["dep:opendal"]
 
 [package.metadata.docs.rs]
 all-features = true
