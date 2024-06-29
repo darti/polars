@@ -64,6 +64,7 @@ fs4 = { version = "0.8.3", features = ["sync"], optional = true }
 home = "0.5.4"
 
 [dev-dependencies]
+indoc = "2"
 tempfile = "3"
 
 [features]
