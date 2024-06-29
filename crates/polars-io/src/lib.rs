@@ -32,3 +32,6 @@ pub mod utils;
 pub use cloud::glob as async_glob;
 pub use options::*;
 pub use shared::*;
+
+#[cfg(feature = "opendal")]
+pub mod opendal;
