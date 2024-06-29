@@ -17,6 +17,7 @@ polars/vendor
 .idea/
 .vscode/
 .vim
+.zed/
 
 # Python
 .hypothesis/
