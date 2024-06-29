@@ -63,6 +63,9 @@ impl Seek for OpendalReader {
 
 #[cfg(test)]
 mod test {
+    use std::io::Cursor;
+
+    use indoc::indoc;
     use opendal::services::Memory;
     use opendal::Operator;
     use polars_core::assert_df_eq;
@@ -76,11 +79,6 @@ mod test {
     #[test]
     #[cfg(feature = "csv")]
     fn test_csv() {
-        use indoc::indoc;
-
-        let builder = Memory::default();
-        let op: Operator = Operator::new(builder).unwrap().finish();
-
         let data = indoc! {"
             col1,col2
             a,c
@@ -92,11 +90,42 @@ mod test {
 
         let df_ref = DataFrame::new(vec![col1, col2]).unwrap();
 
+        let builder = Memory::default();
+        let op: Operator = Operator::new(builder).unwrap().finish();
+
         op.blocking().write("test.csv", data).unwrap();
 
         let reader = CsvReadOptions::default()
             .with_has_header(true)
             .into_reader_with_file_handle(super::OpendalReader::new(op, "test.csv".into()));
+
+        let df = reader.finish().unwrap();
+
+        assert_df_eq!(df, df_ref);
+    }
+
+    #[test]
+    #[cfg(feature = "json")]
+    fn test_json() {
+        use indoc::indoc;
+
+        use crate::json::JsonReader;
+
+        let data = indoc! {r#"
+        [
+            {"col1": "a", "col2": "c"},
+            {"col1": "b", "col2": "d"}
+        ]
+        "#};
+
+        let df_ref = JsonReader::new(Cursor::new(data)).finish().unwrap();
+
+        let builder = Memory::default();
+        let op: Operator = Operator::new(builder).unwrap().finish();
+
+        op.blocking().write("test.json", data).unwrap();
+
+        let reader = JsonReader::new(super::OpendalReader::new(op, "test.json".into()));
 
         let df = reader.finish().unwrap();
 
