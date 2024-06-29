@@ -1,0 +1,19 @@
+[package]
+name = "polars-opendal"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+description = "OpenDAL backend for the Polars DataFrame library"
+
+[dependencies]
+indoc = "2.0.5"
+opendal = "0.47.1"
+polars-core = { workspace = true }
+polars-io = { workspace = true }
+
+[features]
+csv = ["polars-io/csv"]
+json = ["polars-io/json"]
